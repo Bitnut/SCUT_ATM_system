@@ -1,0 +1,47 @@
+sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+sudo systemctl start mysqld
+systemctl status mysqld
+mysql -u root -p
+../node_modules/sequelize-auto/bin/sequelize-auto -o "./schema" -d ATM_system -h 127.0.0.1 -u root -p 3306 -x root -e mariadb
+
+
+第3步：安装MariaDB
+2013年后，Arch Linux将MariaDB作为默认的SQL服务器，Oracle的MySQL被打入冷宫（被丢进AUR软件库）。
+
+使用这条命令安装MariaDB。
+
+sudo pacman -S mariadb
+在启动MariaDB服务之前，需要用下面的mysql_install_db命令初始化MariaDB的数据目录，
+
+sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+现在启动MariaDB服务。
+
+sudo systemctl start mysqld
+查看MariaDB状态。
+
+systemctl status mysqld
+输出：
+
+● mysqld.service - MariaDB database server
+   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; disabled; vendor preset: disabled)
+   Active: active (running) since Wed 2016-04-13 21:09:45 CST; 5s ago
+  Process: 8373 ExecStartPost=/usr/bin/mysqld-post (code=exited, status=0/SUCCESS)
+ Main PID: 8372 (mysqld)
+    Tasks: 26 (limit: 512)
+   CGroup: /system.slice/mysqld.service
+           └─8372 /usr/bin/mysqld --pid-file=/run/mysqld/mysqld.pid
+设置MariaDB开机自启动。
+
+sudo systemclt enable mysqld
+运行安全脚本。
+
+sudo mysql_secure_installation
+它会询问你MariaDB的root密码，因为我们没有设置密码，所以按Enter键，再设置一个root密码。之后，我们要删除test数据库，anonymous用户以及禁用root用户远程登录。
+
+查看MariaDB的版本。
+
+[user@arch ~]$ mysql --version
+mysql  Ver 15.1 Distrib 10.1.13-MariaDB, for Linux (x86_64) using readline 5.1
+默认的配置文件为/etc/mysql/my.cnf。
+
+
